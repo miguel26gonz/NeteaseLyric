@@ -62,7 +62,7 @@
            <string/>
           </property>
           <property name="placeholderText">
-           <string>在此输入歌曲URL</string>
+           <string>Introduce URL</string>
           </property>
          </widget>
         </item>
