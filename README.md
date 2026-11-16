@@ -3,8 +3,6 @@
 > **Fork** of [taseikyo/NeteaseLyric](https://github.com/taseikyo/NeteaseLyric),
 > updated to build with **Qt 6**.
 
-中文介绍查看[知乎](https://www.zhihu.com/question/27638171/answer/217582659)
-
 ## Preview
 ![Preview.gif](https://i.loli.net/2017/10/15/59e3343733180.gif)
 
@@ -31,10 +29,8 @@ and save the lyrics as a `.lrc` file with `Ctrl+S`.
 (screenshots...)
 
 ## Disclaimer
-注：本软件仅作学习交流,不得进行任何商业用途,否则产生的一切后果将由使用者本人承担！
-
-*Note: This software is for learning and communication purposes only. It must not be used
-for any commercial purpose; the user bears all consequences of its use.*
+This software is for learning and communication purposes only. It must not be used
+for any commercial purpose; the user bears all consequences of its use.
 
 ## License
 [MIT](LICENSE). Original work by LewisTian (taseikyo).
