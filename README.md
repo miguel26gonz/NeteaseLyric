@@ -20,13 +20,13 @@ Prebuilt binaries of the original (Qt 5) version are available in the
 [original repo's releases](https://github.com/taseikyo/NeteaseLyric/releases).
 
 ## Usage
+
 Copy the song's URL or ID from [Netease Cloud Music](http://music.163.com/),
 then paste it into the input field. Click `get` or press `enter` to obtain the lyrics.
 
 You can hide the timeline or the translation with the checkboxes,
 and save the lyrics as a `.lrc` file with `Ctrl+S`.
 
-(screenshots...)
 
 ## Disclaimer
 This software is for learning and communication purposes only. It must not be used
