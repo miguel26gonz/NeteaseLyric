@@ -46,7 +46,7 @@
            </font>
           </property>
           <property name="text">
-           <string>歌曲url：</string>
+           <string>Url：</string>
           </property>
          </widget>
         </item>
@@ -95,7 +95,7 @@
            </font>
           </property>
           <property name="text">
-           <string>歌名：</string>
+           <string>Song ：</string>
           </property>
          </widget>
         </item>
@@ -130,7 +130,7 @@
            </font>
           </property>
           <property name="text">
-           <string>歌手：</string>
+           <string>Singer：</string>
           </property>
          </widget>
         </item>
@@ -159,7 +159,7 @@
            </font>
           </property>
           <property name="text">
-           <string>时间轴</string>
+           <string>Timestamp</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -175,7 +175,7 @@
            </font>
           </property>
           <property name="text">
-           <string>翻译</string>
+           <string>Translate</string>
           </property>
           <property name="checked">
            <bool>true</bool>
