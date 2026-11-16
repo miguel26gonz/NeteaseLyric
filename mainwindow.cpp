@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QRegExp>
+#include <QRegularExpression>
+#include <QStringConverter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -39,22 +42,17 @@ void MainWindow::replyFinished(QNetworkReply *reply){
     }
     reply->deleteLater();
 }
-
 void MainWindow::Get_Data(QString string){
     if(first){
-        QRegExp rx;
-        rx.setMinimal(true);
-        rx.setPattern("data-res-name=\"(.*)\"");
-        int pos = string.indexOf(rx);
-        if ( pos >= 0 ){
-            song = rx.cap(1);
-            ui->songNameEdit->setText(song);
+        QRegularExpression rx("data-res-name=\"(.*?)\"");
+        QRegularExpressionMatch match = rx.match(string);
+        if ( match.hasMatch() ){
+            ui->songNameEdit->setText(match.captured(1));
         }
-        rx.setPattern("data-res-author=\"(.*)\"");
-        pos = string.indexOf(rx);
-        if ( pos >= 0 ){
-            singer = rx.cap(1);
-            ui->singerEdit->setText(singer);
+        rx.setPattern("data-res-author=\"(.*?)\"");
+        match = rx.match(string);
+        if ( match.hasMatch() ){
+            ui->singerEdit->setText(match.captured(1));
         }
         first = false;
     }
@@ -71,13 +69,12 @@ void MainWindow::Get_Data(QString string){
         QJsonValue lrc = jsonObject.value("lrc");
         QJsonObject lrcObj = lrc.toObject();
         QJsonValue lyric = lrcObj.value("lyric");
-//        qDebug()<<lyric;
+        //        qDebug()<<lyric;
         if(lyric.isUndefined()){
             ui->Lrc->setText("无歌词...");
             return;
         }
-        QRegExp rx("\\[\\d.*\\]");
-        rx.setMinimal(true);
+        QRegularExpression rx("\\[\\d.*?\\]");
         raw_ = raw = lyric.toString();
         ui->Lrc->setText(raw);
         raw_.replace(rx,"");
@@ -86,7 +83,7 @@ void MainWindow::Get_Data(QString string){
             lrc = jsonObject.value("tlyric");
             lrcObj = lrc.toObject();
             lyric = lrcObj.value("lyric");
-//            qDebug()<<lyric;
+            //            qDebug()<<lyric;
             if(lyric.isNull()){
                 trans_ = trans = "";
                 return;
@@ -97,7 +94,6 @@ void MainWindow::Get_Data(QString string){
         }
     }
 }
-
 
 void MainWindow::set_get_request(QString url){
     QNetworkRequest *request = new QNetworkRequest();
@@ -112,11 +108,11 @@ void MainWindow::on_pushButton_clicked(){
     if(ui->songUrlEdit->text().isEmpty()){
         return;
     }
-    QRegExp rx("(\\d+\\d+\\d+\\d+)");
-    int pos = ui->songUrlEdit->text().indexOf(rx);
-    if ( pos >= 0 ){
-        songID = rx.cap(1);
-//        qDebug()<<songID;
+    QRegularExpression rx("(\\d+\\d+\\d+\\d+)");
+    QRegularExpressionMatch match = rx.match(ui->songUrlEdit->text());
+    if ( match.hasMatch() ){
+        songID = match.captured(1);
+        //        qDebug()<<songID;
         QString s = QString("http://music.163.com/song?id=%1").arg(songID);
         set_get_request(s);
     }
@@ -127,26 +123,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->modifiers() == Qt::ControlModifier){
         if(event->key() == Qt::Key_S){
-            if(singer.isEmpty() || song.isEmpty()) return;
-//            qDebug()<<singer<<song;
-            QRegExp rx("/");
-            int pos = singer.indexOf(rx);
-            while(pos >= 0) {
-                singer.replace(pos, 1, '&');
-                pos = singer.indexOf(rx);
-//                qDebug()<<pos;
-            }
-            path = QFileDialog::getSaveFileName(this, "Sava File", song+" - "+singer+".lrc", "*.lrc");
+            path = QFileDialog::getSaveFileName(this, "Sava File", "", "*.lrc");
             if(path.isEmpty()){
                 return;
             }
             QFile outFile(path);
             if (!outFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
-                QMessageBox::critical(this, "警告", "无法创建文件");
+                QMessageBox::critical(NULL, "提示", "无法创建文件");
                 return;
             }
             QTextStream outTS(&outFile);
-            outTS.setCodec(QTextCodec::codecForName("UTF-8"));
+            outTS.setEncoding(QStringConverter::Utf8);
             outTS<<ui->Lrc->toPlainText().toUtf8();
             outTS.setGenerateByteOrderMark(true);
             outTS.flush();
