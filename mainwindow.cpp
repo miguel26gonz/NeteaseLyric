@@ -71,11 +71,12 @@ void MainWindow::Get_Data(QString string){
         QJsonValue lyric = lrcObj.value("lyric");
         //        qDebug()<<lyric;
         if(lyric.isUndefined()){
-            ui->Lrc->setText("无歌词...");
+            ui->Lrc->setText("No lyrics...");
             return;
         }
         QRegularExpression rx("\\[\\d.*?\\]");
-        raw_ = raw = lyric.toString();
+        QString text = translateCredits(lyric.toString());
+        raw_ = raw = text;
         ui->Lrc->setText(raw);
         raw_.replace(rx,"");
         //翻译
@@ -129,7 +130,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             }
             QFile outFile(path);
             if (!outFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
-                QMessageBox::critical(NULL, "提示", "无法创建文件");
+                QMessageBox::critical(NULL, "Note", "Unable to create file");
                 return;
             }
             QTextStream outTS(&outFile);
@@ -180,4 +181,12 @@ void MainWindow::on_transCheck_clicked(){
             ui->Lrc->setText(raw_);
         }
     }
+}
+
+QString MainWindow::translateCredits(QString text){
+    text.replace(QString(u"\u5236\u4f5c\u4eba"), QString("Producer"));
+    text.replace(QString(u"\u4f5c\u8bcd"), QString("Lyrics"));
+    text.replace(QString(u"\u4f5c\u66f2"), QString("Composer"));
+    text.replace(QString(u"\u7f16\u66f2"), QString("Arranger"));
+    return text;
 }

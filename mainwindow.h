@@ -43,11 +43,12 @@ private:
     void set_get_request(QString url);
     void Get_Data(QString string);
     bool first;
-    QString raw;//原歌词
-    QString raw_;//无时间轴
-    QString trans;//翻译
-    QString trans_;//无时间轴
-    QString songID;//歌曲id
+    QString raw;//Original lyrics
+    QString raw_;//No timeline
+    QString trans;//Translation
+    QString trans_;//No timeline
+    QString songID;//Song id
+    QString translateCredits(QString text);
 
 };
 
